@@ -1,0 +1,15 @@
+[package]
+name = "dovenest"
+description = "DoveNest develops cooperatively planning agents – AI personas that unify conversation partners and agents in one seamless interaction."
+version = "0.1.0"
+edition = "2024"
+authors = ["Japati Aisyah Bintang <stardove.bintang@gmail.com>", "Oliver Ruebenacker <curoli@gmail.com>"]
+readme = "README.md"
+repository = "https://github.com/jati-bintang/dovenest"
+license = "Apache-2.0"
+keywords = ["ai", "agent", "conversation", "planning", "dovenest"]
+
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
