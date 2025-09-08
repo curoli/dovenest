@@ -119,7 +119,9 @@ To realize a cooperatively planning agent, the platform must deliver more than e
 * **Asynchronous conversation flow**: The AI persona never blocks for long. The human can issue new requests at any time. The conversation includes references to clarify event sequences.  
 * **Non-blocking interfaces** for long-running processes: calls trigger background tasks. Human and AI persona are notified once results are ready or too much time has passed.
 
-# Use Cases
+## Use Cases
+
+---
 
 ## UC‑01: Continuous Pair‑Programmer with GitHub (No Agent‑Mode Toggle)
 **Problem:** Today you must switch into a special “agent mode” to let the AI make code changes, and you usually lose conversational flow while CI tasks run.
@@ -138,12 +140,12 @@ To realize a cooperatively planning agent, the platform must deliver more than e
 
 **Memories:** Repo conventions, coding style, past decisions (e.g., chosen telemetry lib), secrets policy.
 
-**MVP Cut:**
+**MVP:**
 - Single repo, branch, PR; one CI workflow (fmt+lint+unit tests).
 - Asynchronous status pings in chat (no blocking).
 - Human-in-the-loop approval before merges.
 
-**Success Signals (KPIs):**
+**KPIs:**
 - Time from intent → green CI < 1 hour on average.
 - ≥80% PRs merged without manual fixups beyond review comments.
 
@@ -154,13 +156,20 @@ To realize a cooperatively planning agent, the platform must deliver more than e
 
 **Vision:** The AI plans the refactor, runs batch transforms, keeps commits small, and automatically updates call sites and docs, with tests guarding behavior.
 
-**Flow:** plan → programmatic changes (codemods) → incremental PRs → cross‑repo dependency graph updates → CI on each step.
+**Flow:**
+1. Plan the refactor.
+2. Run programmatic changes (codemods).
+3. Create incremental PRs.
+4. Update cross‑repo dependencies.
+5. CI runs on each step.
 
 **Interfaces:** Code search, codemod runners (Rustfix/rustfmt/clippy; JS/TS codemods), GitHub.
 
 **MVP:** Single‑repo rename + signature change with auto‑fix of call sites; update docs; pass tests.
 
-**KPIs:** Mean time to complete refactor; regression rate post‑merge.
+**KPIs:**
+- Mean time to complete refactor.
+- Regression rate post‑merge.
 
 ---
 
@@ -169,13 +178,22 @@ To realize a cooperatively planning agent, the platform must deliver more than e
 
 **Vision:** One authoritative source; AI maintains synced translations for 5–7 site languages with glossaries and style guides; PRs open automatically on content changes.
 
-**Flow:** change detected → translation draft → glossary/style enforcement → reviewer checklist → per‑language PRs → site rebuild.
+**Flow:**
+1. Detect content change.
+2. Draft translation.
+3. Enforce glossary/style.
+4. Reviewer checklist.
+5. Per‑language PRs.
+6. Site rebuild.
 
 **Interfaces:** i18n service, static site generator (Next.js/Astro), GitHub.
 
 **MVP:** Sync DE↔EN for whitepaper + one website page; review loop; deploy.
 
-**KPIs:** Sync latency (<24h), reviewer edit distance, consistency score.
+**KPIs:**
+- Sync latency (<24h).
+- Reviewer edit distance.
+- Consistency score.
 
 ---
 
@@ -184,13 +202,21 @@ To realize a cooperatively planning agent, the platform must deliver more than e
 
 **Vision:** AI reads spec or paper, extracts acceptance criteria, proposes architecture, scaffolds minimal code, and opens a PR with tests.
 
-**Flow:** ingest → outline → acceptance tests first → scaffolding → minimal implementation → CI → PR.
+**Flow:**
+1. Ingest spec.
+2. Create outline.
+3. Write acceptance tests first.
+4. Scaffold minimal implementation.
+5. Run CI.
+6. Open PR.
 
 **Interfaces:** Web fetcher/PDF parser, test runner, GitHub.
 
 **MVP:** From a short spec to a passing unit‑tested module.
 
-**KPIs:** Acceptance criteria coverage; review cycles to merge.
+**KPIs:**
+- Acceptance criteria coverage.
+- Review cycles to merge.
 
 ---
 
@@ -199,13 +225,21 @@ To realize a cooperatively planning agent, the platform must deliver more than e
 
 **Vision:** AI clusters related issues, builds minimal repro, bisects commits, proposes fix, links to PR.
 
-**Flow:** issue ingestion → similarity clustering → repro harness → failing test → suggested fix → PR.
+**Flow:**
+1. Ingest issues.
+2. Cluster by similarity.
+3. Build repro harness.
+4. Create failing test.
+5. Suggest fix.
+6. Open PR.
 
 **Interfaces:** Issue tracker, git bisect, test runner, GitHub.
 
 **MVP:** Single failing scenario → minimal repro test + suggested fix in PR.
 
-**KPIs:** % issues with repro within 1 hour; time‑to‑first‑fix.
+**KPIs:**
+- % issues with repro within 1 hour.
+- Time‑to‑first‑fix.
 
 ---
 
@@ -214,13 +248,18 @@ To realize a cooperatively planning agent, the platform must deliver more than e
 
 **Vision:** Ask natural language questions over codebase + ADRs + PR reviews; answers cite lines, PRs, and design docs.
 
-**Flow:** index code and docs → embeddings + symbols → Q&A with provenance.
+**Flow:**
+1. Index code and docs.
+2. Generate embeddings + symbols.
+3. Q&A with provenance.
 
 **Interfaces:** Repo indexer, vector DB, code parser; chat UI.
 
 **MVP:** Answer “Why do we use LanceDB over SQLite for embeddings?” with citations to ADR and PR.
 
-**KPIs:** Answer accuracy (human‑rated); time saved in onboarding.
+**KPIs:**
+- Answer accuracy (human‑rated).
+- Time saved in onboarding.
 
 ---
 
@@ -229,13 +268,20 @@ To realize a cooperatively planning agent, the platform must deliver more than e
 
 **Vision:** AI captures meeting notes (or transcript), extracts decisions, creates issues, links dependencies, and proposes sprint plan.
 
-**Flow:** transcript → action extraction → issues/epics → prioritization → sprint draft.
+**Flow:**
+1. Capture transcript.
+2. Extract actions.
+3. Create issues/epics.
+4. Link dependencies.
+5. Propose sprint draft.
 
 **Interfaces:** Calendar, notes/transcripts, issue tracker.
 
 **MVP:** From transcript text → 5–10 actionable GitHub issues with labels and owners.
 
-**KPIs:** % actions captured; stakeholder satisfaction.
+**KPIs:**
+- % actions captured.
+- Stakeholder satisfaction.
 
 ---
 
@@ -244,13 +290,21 @@ To realize a cooperatively planning agent, the platform must deliver more than e
 
 **Vision:** AI scaffolds a minimal embedding microservice (Rust Axum + LanceDB), adds health checks, metrics, and a search endpoint, with CI/CD.
 
-**Flow:** template selection → param binding (model, dims) → code gen → dockerfile → CI → deploy stub.
+**Flow:**
+1. Select template.
+2. Bind parameters (model, dims).
+3. Generate code.
+4. Add Dockerfile.
+5. Run CI.
+6. Deploy stub.
 
 **Interfaces:** Templates, container build, GitHub, (optional) cloud deploy.
 
 **MVP:** Local dev: build + run + pass smoke tests; one deploy script.
 
-**KPIs:** Time‑to‑first‑query; P95 latency under test.
+**KPIs:**
+- Time‑to‑first‑query.
+- P95 latency under test.
 
 ---
 
@@ -259,13 +313,20 @@ To realize a cooperatively planning agent, the platform must deliver more than e
 
 **Vision:** Fine‑grained controls: opt‑in scopes, redaction, retention, and audit trails exposed in UX; AI explains what it’s using and why.
 
-**Flow:** memory proposal → user approval → scoped use → audit events → expiration.
+**Flow:**
+1. Propose memory.
+2. User approval.
+3. Scoped use.
+4. Audit events.
+5. Expiration.
 
 **Interfaces:** Memory store, policy engine, UI components.
 
 **MVP:** Approve/deny per‑conversation memory with visible audit log; export/delete.
 
-**KPIs:** User trust ratings; zero unresolved privacy incidents.
+**KPIs:**
+- User trust ratings.
+- Zero unresolved privacy incidents.
 
 ---
 
@@ -274,17 +335,26 @@ To realize a cooperatively planning agent, the platform must deliver more than e
 
 **Vision:** AI matches alerts to runbooks, runs safe checks, proposes remediations, and documents the timeline automatically.
 
-**Flow:** alert ingest → runbook selection → read‑only diagnostics → proposed fix → human approval → execute → postmortem draft.
+**Flow:**
+1. Ingest alert.
+2. Select runbook.
+3. Run read‑only diagnostics.
+4. Propose fix.
+5. Human approval.
+6. Execute.
+7. Draft postmortem.
 
 **Interfaces:** Monitoring/alerting APIs, read‑only infra, ticketing.
 
 **MVP:** Simulated incident → diagnostics + draft postmortem.
 
-**KPIs:** MTTA/MTTR reduction; accuracy of suggested steps.
+**KPIs:**
+- MTTA/MTTR reduction.
+- Accuracy of suggested steps.
 
 ---
 
-# MVP Roadmap (First 4–6 Weeks)
+## MVP Roadmap (First 4–6 Weeks)
 
 **Week 1–2: UC‑01 (Pair‑Programmer) Foundations**
 - Define minimal repo + CI (fmt, clippy, unit tests).
@@ -300,7 +370,7 @@ To realize a cooperatively planning agent, the platform must deliver more than e
 
 ---
 
-# Key Design Principles Tied to Use Cases
+## Key Design Principles Tied to Use Cases
 - **No hard mode switch:** Conversation remains primary; actions spawn as background jobs.
 - **Human‑in‑the‑loop by default:** Consent gates for code changes, merges, and memory use.
 - **Provenance everywhere:** Link to PRs, tests, ADRs, and logs in every response.
@@ -309,8 +379,7 @@ To realize a cooperatively planning agent, the platform must deliver more than e
 
 ---
 
-# Open Questions
+## Open Questions
 - Unified event model for async updates in chat (webhooks vs. polling)?
 - Standard test interface across languages (Rust, Python, JS) for consistent CI signals?
 - Memory schema for project vs. personal contexts; portability across instances?
-
