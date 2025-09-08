@@ -117,4 +117,204 @@ To realize a cooperatively planning agent, the platform must deliver more than e
 * **Access to interfaces** for execution.  
 * **Flexible memory management**, enabling memories to be deactivated, summarized, or reactivated as needed – controlled by the human, the AI persona, or a separate mechanism.  
 * **Asynchronous conversation flow**: The AI persona never blocks for long. The human can issue new requests at any time. The conversation includes references to clarify event sequences.  
-* **Non-blocking interfaces** for long-running processes: calls trigger background tasks. Human and AI persona are notified once results are ready or too much time has passed.  
+* **Non-blocking interfaces** for long-running processes: calls trigger background tasks. Human and AI persona are notified once results are ready or too much time has passed.
+
+# Use Cases
+
+> Purpose: Expand the whitepaper with concrete, testable scenarios that demonstrate “kooperativ planende Agentinnen” (cooperatively planning agents) without mode-switching, with persistent memories and non-blocking interfaces.
+
+---
+
+## UC‑01: Continuous Pair‑Programmer with GitHub (No Agent‑Mode Toggle)
+**Problem:** Today you must switch into a special “agent mode” to let the AI make code changes, and you usually lose conversational flow while CI tasks run.
+
+**Vision:** Stay in free conversation while the AI proposes, applies, and iterates on changes via GitHub, kicking off lint/format/test pipelines in the background and reporting progress without blocking.
+
+**Actors:** Developer, DoveNest persona, GitHub, CI (e.g., GitHub Actions), Issue Tracker.
+
+**Flow:**
+1. Developer: “Refactor the config loader and add telemetry opt‑in.”
+2. DoveNest: drafts plan → proposes diff → gets consent → opens a branch → pushes commits.
+3. CI starts (lint, fmt, test, build). Results stream back asynchronously in the chat.
+4. Failures trigger targeted fixes (new commits) until CI passes; DoveNest summarizes changes and creates a PR with checklist and release notes.
+
+**Interfaces:** GitHub API (repos, branches, PRs, reviews), CI status API, semantic code search.
+
+**Memories:** Repo conventions, coding style, past decisions (e.g., chosen telemetry lib), secrets policy.
+
+**MVP Cut:**
+- Single repo, branch, PR; one CI workflow (fmt+lint+unit tests).
+- Asynchronous status pings in chat (no blocking).
+- Human-in-the-loop approval before merges.
+
+**Success Signals (KPIs):**
+- Time from intent → green CI < 1 hour on average.
+- ≥80% PRs merged without manual fixups beyond review comments.
+
+---
+
+## UC‑02: Safe Repo‑Wide Refactor (Batch + Guardrails)
+**Problem:** Large refactors (rename crates/modules, API changes) are tedious and brittle.
+
+**Vision:** The AI plans the refactor, runs batch transforms, keeps commits small, and automatically updates call sites and docs, with tests guarding behavior.
+
+**Flow:** plan → programmatic changes (codemods) → incremental PRs → cross‑repo dependency graph updates → CI on each step.
+
+**Interfaces:** Code search, codemod runners (Rustfix/rustfmt/clippy; JS/TS codemods), GitHub.
+
+**MVP:** Single‑repo rename + signature change with auto‑fix of call sites; update docs; pass tests.
+
+**KPIs:** Mean time to complete refactor; regression rate post‑merge.
+
+---
+
+## UC‑03: Docs & Whitepaper Multilingual Sync
+**Problem:** Manual translation drifts; EN/DE versions diverge.
+
+**Vision:** One authoritative source; AI maintains synced translations for 5–7 site languages with glossaries and style guides; PRs open automatically on content changes.
+
+**Flow:** change detected → translation draft → glossary/style enforcement → reviewer checklist → per‑language PRs → site rebuild.
+
+**Interfaces:** i18n service, static site generator (Next.js/Astro), GitHub.
+
+**MVP:** Sync DE↔EN for whitepaper + one website page; review loop; deploy.
+
+**KPIs:** Sync latency (<24h), reviewer edit distance, consistency score.
+
+---
+
+## UC‑04: Research‑to‑PR (Deep Read → Implementation)
+**Problem:** Turning specs/papers/issues into code is slow.
+
+**Vision:** AI reads spec or paper, extracts acceptance criteria, proposes architecture, scaffolds minimal code, and opens a PR with tests.
+
+**Flow:** ingest → outline → acceptance tests first → scaffolding → minimal implementation → CI → PR.
+
+**Interfaces:** Web fetcher/PDF parser, test runner, GitHub.
+
+**MVP:** From a short spec to a passing unit‑tested module.
+
+**KPIs:** Acceptance criteria coverage; review cycles to merge.
+
+---
+
+## UC‑05: Bug Triage & Reproduction Assistant
+**Problem:** Issues lack reproduction; debugging stalls.
+
+**Vision:** AI clusters related issues, builds minimal repro, bisects commits, proposes fix, links to PR.
+
+**Flow:** issue ingestion → similarity clustering → repro harness → failing test → suggested fix → PR.
+
+**Interfaces:** Issue tracker, git bisect, test runner, GitHub.
+
+**MVP:** Single failing scenario → minimal repro test + suggested fix in PR.
+
+**KPIs:** % issues with repro within 1 hour; time‑to‑first‑fix.
+
+---
+
+## UC‑06: Knowledge Portal over Code & Decisions
+**Problem:** Tacit knowledge (why decisions were made) gets lost.
+
+**Vision:** Ask natural language questions over codebase + ADRs + PR reviews; answers cite lines, PRs, and design docs.
+
+**Flow:** index code and docs → embeddings + symbols → Q&A with provenance.
+
+**Interfaces:** Repo indexer, vector DB, code parser; chat UI.
+
+**MVP:** Answer “Why do we use LanceDB over SQLite for embeddings?” with citations to ADR and PR.
+
+**KPIs:** Answer accuracy (human‑rated); time saved in onboarding.
+
+---
+
+## UC‑07: Meeting‑to‑Backlog Automation
+**Problem:** Decisions in calls don’t turn into tracked work.
+
+**Vision:** AI captures meeting notes (or transcript), extracts decisions, creates issues, links dependencies, and proposes sprint plan.
+
+**Flow:** transcript → action extraction → issues/epics → prioritization → sprint draft.
+
+**Interfaces:** Calendar, notes/transcripts, issue tracker.
+
+**MVP:** From transcript text → 5–10 actionable GitHub issues with labels and owners.
+
+**KPIs:** % actions captured; stakeholder satisfaction.
+
+---
+
+## UC‑08: Data/Embedding Pipeline Bootstrap
+**Problem:** Setting up robust embedding services is repetitive.
+
+**Vision:** AI scaffolds a minimal embedding microservice (Rust Axum + LanceDB), adds health checks, metrics, and a search endpoint, with CI/CD.
+
+**Flow:** template selection → param binding (model, dims) → code gen → dockerfile → CI → deploy stub.
+
+**Interfaces:** Templates, container build, GitHub, (optional) cloud deploy.
+
+**MVP:** Local dev: build + run + pass smoke tests; one deploy script.
+
+**KPIs:** Time‑to‑first‑query; P95 latency under test.
+
+---
+
+## UC‑09: Memory Governance & Privacy Controls
+**Problem:** Persistent memories are powerful but risky.
+
+**Vision:** Fine‑grained controls: opt‑in scopes, redaction, retention, and audit trails exposed in UX; AI explains what it’s using and why.
+
+**Flow:** memory proposal → user approval → scoped use → audit events → expiration.
+
+**Interfaces:** Memory store, policy engine, UI components.
+
+**MVP:** Approve/deny per‑conversation memory with visible audit log; export/delete.
+
+**KPIs:** User trust ratings; zero unresolved privacy incidents.
+
+---
+
+## UC‑10: On‑Call Runbook Co‑Pilot
+**Problem:** Incidents need fast, guided response.
+
+**Vision:** AI matches alerts to runbooks, runs safe checks, proposes remediations, and documents the timeline automatically.
+
+**Flow:** alert ingest → runbook selection → read‑only diagnostics → proposed fix → human approval → execute → postmortem draft.
+
+**Interfaces:** Monitoring/alerting APIs, read‑only infra, ticketing.
+
+**MVP:** Simulated incident → diagnostics + draft postmortem.
+
+**KPIs:** MTTA/MTTR reduction; accuracy of suggested steps.
+
+---
+
+# MVP Roadmap (First 4–6 Weeks)
+
+**Week 1–2: UC‑01 (Pair‑Programmer) Foundations**
+- Define minimal repo + CI (fmt, clippy, unit tests).
+- Implement GitHub connector wrapper with non‑blocking job queue.
+- Chat events for: plan → diff preview → apply → CI status updates.
+
+**Week 3–4: UC‑03 (Docs Sync) + UC‑06 (Knowledge Portal) Beta**
+- Add DE↔EN sync pipeline for whitepaper page.
+- Build indexer (code+ADRs+PRs) and Q&A with citations.
+
+**Week 5–6: UC‑05 (Bug Repro) Pilot**
+- Automated minimal repro test generator for one class of bugs (e.g., Rust panics).
+
+---
+
+# Key Design Principles Tied to Use Cases
+- **No hard mode switch:** Conversation remains primary; actions spawn as background jobs.
+- **Human‑in‑the‑loop by default:** Consent gates for code changes, merges, and memory use.
+- **Provenance everywhere:** Link to PRs, tests, ADRs, and logs in every response.
+- **Graceful degradation:** If a tool is unavailable, the persona explains and continues planning without blocking.
+- **Safety rails:** Scopes, dry‑runs, sandboxes, and signed actions; least privilege tokens.
+
+---
+
+# Open Questions
+- Unified event model for async updates in chat (webhooks vs. polling)?
+- Standard test interface across languages (Rust, Python, JS) for consistent CI signals?
+- Memory schema for project vs. personal contexts; portability across instances?
+
