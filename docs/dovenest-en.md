@@ -121,10 +121,6 @@ To realize a cooperatively planning agent, the platform must deliver more than e
 
 # Use Cases
 
-> Purpose: Expand the whitepaper with concrete, testable scenarios that demonstrate “kooperativ planende Agentinnen” (cooperatively planning agents) without mode-switching, with persistent memories and non-blocking interfaces.
-
----
-
 ## UC‑01: Continuous Pair‑Programmer with GitHub (No Agent‑Mode Toggle)
 **Problem:** Today you must switch into a special “agent mode” to let the AI make code changes, and you usually lose conversational flow while CI tasks run.
 
