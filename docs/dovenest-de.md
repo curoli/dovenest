@@ -118,3 +118,268 @@ Um eine kooperativ planende Agentin zu verwirklichen, muss die Plattform mehr le
 * **Flexible Erinnerungsverwaltung**, sodass Erinnerungen bei Bedarf deaktiviert, zusammengefasst oder wieder aktiviert werden können – gesteuert vom Menschen, der KI-Person oder einem separaten Mechanismus.  
 * **Asynchroner Gesprächsverlauf**: Die KI-Person blockiert nie länger. Der Mensch kann jederzeit neue Anfragen stellen. Der Gesprächsverlauf enthält Hinweise zur Klarheit über die Abfolge.  
 * **Nicht-blockierende Schnittstellen** für längerlaufende Prozesse: Aufrufe stoßen Hintergrundaufgaben an. Mensch und KI-Person werden benachrichtigt, sobald Ergebnisse vorliegen oder zu viel Zeit vergangen ist.  
+
+## Anwendungsfälle
+
+---
+
+## UC-01: Kontinuierlicher Pair-Programmierer mit GitHub (ohne Agentenmodus)
+**Problem:** Heute muss man in einen speziellen „Agentenmodus“ wechseln, damit die KI Codeänderungen durchführen kann, und verliert dabei oft den Gesprächsfluss, während CI-Aufgaben laufen.
+
+**Vision:** Im freien Gespräch bleiben, während die KI Änderungen über GitHub vorschlägt, anwendet und iteriert, CI-Pipelines (Lint/Format/Test) im Hintergrund ausführt und den Fortschritt meldet – ohne Blockierung.
+
+**Akteure:** Entwickler, DoveNest-Persona, GitHub, CI (z. B. GitHub Actions), Issue Tracker.
+
+**Ablauf:**
+1. Entwickler: „Refaktorisiere den Config-Loader und füge Telemetrie-Opt-in hinzu.“
+2. DoveNest: erstellt Plan → schlägt Diff vor → holt Zustimmung → öffnet Branch → pusht Commits.
+3. CI startet (lint, fmt, test, build). Ergebnisse laufen asynchron im Chat ein.
+4. Fehler lösen gezielte Fixes aus (neue Commits), bis CI grün ist; DoveNest fasst zusammen und erstellt einen PR mit Checkliste und Release Notes.
+
+**Schnittstellen:** GitHub-API (Repos, Branches, PRs, Reviews), CI-Status-API, semantische Codesuche.
+
+**Erinnerungen:** Repo-Konventionen, Coding-Style, frühere Entscheidungen (z. B. gewählte Telemetrie-Bibliothek), Richtlinien zu Secrets.
+
+**MVP:**
+- Ein Repo, ein Branch, ein PR; eine CI-Pipeline (fmt+lint+Unit Tests).
+- Asynchrone Statusmeldungen im Chat (ohne Blockierung).
+- Mensch-in-der-Schleife-Freigabe vor Merge.
+
+**KPIs:**
+- Zeit von Intention → grünes CI < 1 Stunde im Schnitt.
+- ≥80% PRs werden ohne zusätzliche manuelle Fixes gemerged.
+
+---
+
+## UC-02: Sicheres Repo-weites Refactoring (Batch + Leitplanken)
+**Problem:** Große Refactorings (Umbenennen von Crates/Modulen, API-Änderungen) sind mühsam und fehleranfällig.
+
+**Vision:** Die KI plant das Refactoring, führt Batch-Transformationen durch, hält Commits klein, aktualisiert automatisch Call-Sites und Doku, Tests sichern das Verhalten ab.
+
+**Ablauf:**
+1. Refactoring planen.
+2. Programmatische Änderungen (Codemods) durchführen.
+3. Inkrementelle PRs erstellen.
+4. Abhängigkeitsgraphen aktualisieren.
+5. CI bei jedem Schritt.
+
+**Schnittstellen:** Codesuche, Codemod-Runner (Rustfix/rustfmt/clippy; JS/TS-Codemods), GitHub.
+
+**MVP:** Einfaches Umbenennen + Signaturänderung mit Auto-Fix der Call-Sites; Doku-Update; Tests bestehen.
+
+**KPIs:**
+- Durchschnittliche Dauer für Refactoring.
+- Regressionsrate nach Merge.
+
+---
+
+## UC-03: Mehrsprachige Synchronisation von Doku & Weißbuch
+**Problem:** Manuelle Übersetzungen driften auseinander; EN/DE-Versionen divergieren.
+
+**Vision:** Eine autoritative Quelle; KI hält Übersetzungen in 5–7 Sprachen konsistent, mit Glossaren und Styleguides; PRs werden bei Änderungen automatisch erstellt.
+
+**Ablauf:**
+1. Änderung erkennen.
+2. Übersetzungsvorschlag erstellen.
+3. Glossar/Style prüfen.
+4. Review-Checkliste.
+5. Sprachspezifische PRs.
+6. Website neu bauen.
+
+**Schnittstellen:** i18n-Service, Static-Site-Generator (Next.js/Astro), GitHub.
+
+**MVP:** Sync DE↔EN für Weißbuch + eine Website-Seite; Review-Loop; Deployment.
+
+**KPIs:**
+- Sync-Latenz (<24h).
+- Reviewer-Edit-Distanz.
+- Konsistenz-Score.
+
+---
+
+## UC-04: Von Forschung zu PR (Deep Read → Implementierung)
+**Problem:** Spezifikationen/Paper/Issues in Code umzuwandeln dauert lange.
+
+**Vision:** KI liest Spezifikation oder Paper, extrahiert Akzeptanzkriterien, schlägt Architektur vor, erstellt Minimalcode und öffnet PR mit Tests.
+
+**Ablauf:**
+1. Spezifikation einlesen.
+2. Outline erstellen.
+3. Akzeptanztests zuerst schreiben.
+4. Minimalimplementierung scaffolden.
+5. CI laufen lassen.
+6. PR eröffnen.
+
+**Schnittstellen:** Web-Fetcher/PDF-Parser, Testrunner, GitHub.
+
+**MVP:** Aus einer kurzen Spezifikation ein Modul mit bestandenen Unit-Tests.
+
+**KPIs:**
+- Abdeckung der Akzeptanzkriterien.
+- Anzahl Review-Zyklen bis Merge.
+
+---
+
+## UC-05: Bug-Triage & Reproduktions-Assistent
+**Problem:** Issues enthalten oft keine Reproduktion; Debugging stockt.
+
+**Vision:** KI clustert ähnliche Issues, erstellt Minimal-Repro, bisectet Commits, schlägt Fix vor und verlinkt PR.
+
+**Ablauf:**
+1. Issues einlesen.
+2. Nach Ähnlichkeit clustern.
+3. Repro-Harness erstellen.
+4. Failing Test generieren.
+5. Fix vorschlagen.
+6. PR eröffnen.
+
+**Schnittstellen:** Issue Tracker, git bisect, Testrunner, GitHub.
+
+**MVP:** Ein Fail-Szenario → Minimal-Repro-Test + Fix-Vorschlag in PR.
+
+**KPIs:**
+- % Issues mit Repro innerhalb 1 Stunde.
+- Time-to-First-Fix.
+
+---
+
+## UC-06: Wissensportal über Code & Entscheidungen
+**Problem:** Implizites Wissen (Warum Entscheidungen getroffen wurden) geht verloren.
+
+**Vision:** Natürliche Fragen über Codebasis + ADRs + PR-Reviews stellen; Antworten mit Verweisen auf Zeilen, PRs und Design-Dokumente.
+
+**Ablauf:**
+1. Code und Doku indexieren.
+2. Embeddings + Symbole generieren.
+3. Q&A mit Provenienz.
+
+**Schnittstellen:** Repo-Indexer, Vektor-DB, Codeparser, Chat-UI.
+
+**MVP:** Beantwortung von „Warum nutzen wir LanceDB statt SQLite für Embeddings?“ mit Zitaten aus ADR und PR.
+
+**KPIs:**
+- Antwortgenauigkeit (human-rated).
+- Zeitersparnis beim Onboarding.
+
+---
+
+## UC-07: Meeting-zu-Backlog-Automation
+**Problem:** Entscheidungen in Meetings werden nicht in Arbeitspakete überführt.
+
+**Vision:** KI erfasst Meetingnotizen oder Transkripte, extrahiert Entscheidungen, erstellt Issues, verknüpft Abhängigkeiten und schlägt Sprintplan vor.
+
+**Ablauf:**
+1. Transkript erfassen.
+2. Aktionen extrahieren.
+3. Issues/Epics erstellen.
+4. Abhängigkeiten verknüpfen.
+5. Sprintentwurf vorschlagen.
+
+**Schnittstellen:** Kalender, Notizen/Transkripte, Issue Tracker.
+
+**MVP:** Aus einem Transkript → 5–10 GitHub-Issues mit Labels und Zuständigen.
+
+**KPIs:**
+- % Aktionen erfasst.
+- Zufriedenheit der Stakeholder.
+
+---
+
+## UC-08: Daten-/Embedding-Pipeline-Bootstrap
+**Problem:** Aufbau von Embedding-Services ist repetitiv.
+
+**Vision:** KI scaffoldet einen minimalen Embedding-Microservice (Rust Axum + LanceDB), ergänzt Health-Checks, Metriken und einen Search-Endpoint, mit CI/CD.
+
+**Ablauf:**
+1. Template auswählen.
+2. Parameter binden (Model, Dimensionen).
+3. Code generieren.
+4. Dockerfile hinzufügen.
+5. CI laufen lassen.
+6. Stub deployen.
+
+**Schnittstellen:** Templates, Container-Build, GitHub, (optional) Cloud-Deploy.
+
+**MVP:** Lokale Dev-Umgebung: build + run + Smoke Tests bestehen; ein Deploy-Skript.
+
+**KPIs:**
+- Time-to-First-Query.
+- P95-Latenz unter Test.
+
+---
+
+## UC-09: Speicher-Governance & Datenschutzkontrollen
+**Problem:** Persistente Erinnerungen sind mächtig, aber riskant.
+
+**Vision:** Feingranulare Kontrolle: Opt-in-Scopes, Redaction, Retention und Audit Trails in der UX sichtbar; KI erklärt, was sie nutzt und warum.
+
+**Ablauf:**
+1. Speicher vorschlagen.
+2. Nutzerzustimmung.
+3. Gescopte Nutzung.
+4. Audit-Events.
+5. Ablaufdatum.
+
+**Schnittstellen:** Memory Store, Policy Engine, UI-Komponenten.
+
+**MVP:** Zustimmung/Ablehnung pro Konversation mit Audit-Log; Export/Löschen.
+
+**KPIs:**
+- Nutzervertrauen.
+- Keine ungelösten Datenschutzvorfälle.
+
+---
+
+## UC-10: On-Call-Runbook-Co-Pilot
+**Problem:** Vorfälle brauchen schnelle, geführte Reaktion.
+
+**Vision:** KI mappt Alerts auf Runbooks, führt sichere Checks aus, schlägt Remediations vor und dokumentiert den Ablauf automatisch.
+
+**Ablauf:**
+1. Alert einlesen.
+2. Runbook auswählen.
+3. Read-only-Diagnostik.
+4. Fix vorschlagen.
+5. Nutzerfreigabe.
+6. Ausführen.
+7. Postmortem-Draft erstellen.
+
+**Schnittstellen:** Monitoring/Alerting-APIs, Read-only-Infrastruktur, Ticketing.
+
+**MVP:** Simulierter Vorfall → Diagnostik + Postmortem-Draft.
+
+**KPIs:**
+- MTTA/MTTR-Reduktion.
+- Genauigkeit der Vorschläge.
+
+---
+
+## MVP-Roadmap (erste 4–6 Wochen)
+
+**Woche 1–2: UC-01 (Pair-Programmer) Grundlagen**
+- Minimal-Repo + CI (fmt, clippy, Unit Tests) definieren.
+- GitHub-Connector-Wrapper mit non-blocking Job-Queue.
+- Chat-Events: Plan → Diff-Preview → Apply → CI-Status.
+
+**Woche 3–4: UC-03 (Docs-Sync) + UC-06 (Wissensportal) Beta**
+- DE↔EN-Sync-Pipeline fürs Weißbuch.
+- Indexer (Code+ADRs+PRs) und Q&A mit Zitaten.
+
+**Woche 5–6: UC-05 (Bug-Repro) Pilot**
+- Automatischer Repro-Testgenerator für eine Bug-Klasse (z. B. Rust-Panics).
+
+---
+
+## Zentrale Designprinzipien (Use-Case-bezogen)
+- **Kein Moduswechsel:** Gespräch bleibt primär; Aktionen laufen als Hintergrundjobs.
+- **Mensch-in-der-Schleife:** Zustimmung für Codeänderungen, Merges, Speicher.
+- **Provenienz überall:** Verlinkung von PRs, Tests, ADRs und Logs.
+- **Elegantes Degradieren:** Wenn Tool nicht verfügbar, erklärt die Persona und plant weiter.
+- **Sicherheitsleitplanken:** Scopes, Dry-Runs, Sandboxes, signierte Aktionen; Least-Privilege-Tokens.
+
+---
+
+## Offene Fragen
+- Einheitliches Eventmodell für asynchrone Updates im Chat (Webhooks vs. Polling)?
+- Standard-Testinterface über Sprachen (Rust, Python, JS) für konsistente CI-Signale?
+- Speicherschema für Projekt- vs. persönliche Kontexte; Portabilität über Instanzen?
