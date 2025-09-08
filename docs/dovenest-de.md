@@ -1,3 +1,34 @@
+# **DoveNest: Kooperativ planende KI-Agentinnen für eine menschliche Zukunft**
+
+## Inhaltsverzeichnis
+- [Einleitung](#einleitung)
+  - [Kurzüberblick](#kurzüberblick)
+  - [Motivation](#motivation)
+  - [Das Problem mit bestehenden KI-Personen](#das-problem-mit-bestehenden-ki-personen)
+  - [Die DoveNest-Lösung](#die-dovenest-lösung)
+  - [Zentrale Eigenschaften von DoveNest](#zentrale-eigenschaften-von-dovenest)
+- [Architektur von DoveNest](#architektur-von-dovenest)
+  - [Die drei Schichten](#die-drei-schichten)
+  - [Die Rolle der KI-Personen-Platform](#die-rolle-der-ki-personen-platform)
+  - [KI-Gesprächspartnerinnen](#ki-gesprächspartnerinnen)
+  - [KI-Agentinnen](#ki-agentinnen)
+  - [Kooperativ planende Agentinnen](#kooperativ-planende-agentinnen)
+- [Anwendungsfälle](#anwendungsfälle)
+  - [UC-01: Kontinuierlicher Pair-Programmierer mit GitHub (ohne Agentenmodus)](#uc-01-kontinuierlicher-pair-programmierer-mit-github-ohne-agentenmodus)
+  - [UC-02: Sicheres Repo-weites Refactoring (Batch + Leitplanken)](#uc-02-sicheres-repo-weites-refactoring-batch--leitplanken)
+  - [UC-03: Mehrsprachige Synchronisation von Doku & Weißbuch](#uc-03-mehrsprachige-synchronisation-von-doku--weißbuch)
+  - [UC-04: Von Forschung zu PR (Deep Read → Implementierung)](#uc-04-von-forschung-zu-pr-deep-read--implementierung)
+  - [UC-05: Bug-Triage & Reproduktions-Assistent](#uc-05-bug-triage--reproduktions-assistent)
+  - [UC-06: Wissensportal über Code & Entscheidungen](#uc-06-wissensportal-über-code--entscheidungen)
+  - [UC-07: Meeting-zu-Backlog-Automation](#uc-07-meeting-zu-backlog-automation)
+  - [UC-08: Daten-embedding-pipeline-bootstrap](#uc-08-daten-embedding-pipeline-bootstrap)
+  - [UC-09: Speicher-Governance & Datenschutzkontrollen](#uc-09-speicher-governance--datenschutzkontrollen)
+  - [UC-10: On-Call-Runbook-Co-Pilot](#uc-10-on-call-runbook-co-pilot)
+- [MVP-Roadmap (erste 4–6 Wochen)](#mvp-roadmap-erste-4-6-wochen)
+- [Zentrale Designprinzipien (Use-Case-bezogen)](#zentrale-designprinzipien-use-case-bezogen)
+- [Offene Fragen](#offene-fragen)
+
+---
 ## **Einleitung**
 
 ### **Kurzüberblick**
