@@ -1,5 +1,18 @@
 # **DoveNest: Kooperativ planende KI-Agentinnen für eine menschliche Zukunft**
 
+## Zusammenfassung
+Künstliche Intelligenz ist heute in zwei Lager geteilt: **Gesprächspartnerinnen** (stark im Dialog, Wissensvermittlung und Kreativität) und **Agentinnen** (stark in der Ausführung definierter Aufgaben über Tools und Schnittstellen). Menschen jedoch wechseln im natürlichen Arbeitsfluss ständig zwischen Planung und Handlung. Diese Trennung erzeugt Reibung, zwingt zu Moduswechseln und führt zu fragmentierten Erfahrungen.
+
+**DoveNest** schlägt einen neuen Standard vor: **kooperativ planende Agentinnen**, die **Verstehen, Planen und Handeln** in einer nahtlosen Interaktion vereinen. Durch bleibende Erinnerungen, Schnittstellenkompetenz und nicht-blockierende Hintergrundprozesse können DoveNest-Personas:
+- Natürlich im Gespräch bleiben, während Planung und Ausführung ineinandergreifen.
+- Kontext, Erinnerungen und Spezialwissen verwalten.
+- Längere Operationen im Hintergrund ausführen, während der Dialog weiterläuft.
+- Mensch-in-der-Schleife-Zustimmung, Transparenz und Sicherheit gewährleisten.
+
+Dieses Weißbuch skizziert Motivation, Architektur und zehn konkrete Anwendungsfälle von DoveNest, ergänzt um eine MVP-Roadmap und zentrale Designprinzipien. Die Vision ist eine **menschenzentrierte KI-Plattform**, in der Agentinnen wie vertraute Partnerinnen arbeiten – kontinuierlich, kontextbewusst und sicher.
+
+---
+
 ## Inhaltsverzeichnis
 - [Einleitung](#einleitung)
   - [Kurzüberblick](#kurzüberblick)
