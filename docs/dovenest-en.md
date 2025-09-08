@@ -1,3 +1,34 @@
+# **DoveNest: Cooperatively Planning AI Agents for a Human Future**
+
+## Table of Contents
+- [Introduction](#introduction)
+  - [Overview](#overview)
+  - [Motivation](#motivation)
+  - [The Problem with Existing AI Personas](#the-problem-with-existing-ai-personas)
+  - [The DoveNest Solution](#the-dovenest-solution)
+  - [Core Characteristics of DoveNest](#core-characteristics-of-dovenest)
+- [Architecture of DoveNest](#architecture-of-dovenest)
+  - [The Three Layers](#the-three-layers)
+  - [The Role of the AI Persona Platform](#the-role-of-the-ai-persona-platform)
+  - [AI Conversation Partners](#ai-conversation-partners)
+  - [AI Agents](#ai-agents)
+  - [Cooperatively Planning Agents](#cooperatively-planning-agents)
+- [Use Cases](#use-cases)
+  - [UC-01: Continuous Pair-Programmer with GitHub (No Agent-Mode Toggle)](#uc-01-continuous-pair-programmer-with-github-no-agent-mode-toggle)
+  - [UC-02: Safe Repo-Wide Refactor (Batch + Guardrails)](#uc-02-safe-repo-wide-refactor-batch--guardrails)
+  - [UC-03: Docs & Whitepaper Multilingual Sync](#uc-03-docs--whitepaper-multilingual-sync)
+  - [UC-04: Research-to-PR (Deep Read → Implementation)](#uc-04-research-to-pr-deep-read--implementation)
+  - [UC-05: Bug Triage & Reproduction Assistant](#uc-05-bug-triage--reproduction-assistant)
+  - [UC-06: Knowledge Portal over Code & Decisions](#uc-06-knowledge-portal-over-code--decisions)
+  - [UC-07: Meeting-to-Backlog Automation](#uc-07-meeting-to-backlog-automation)
+  - [UC-08: Dataembedding-pipeline-bootstrap](#uc-08-dataembedding-pipeline-bootstrap)
+  - [UC-09: Memory Governance & Privacy Controls](#uc-09-memory-governance--privacy-controls)
+  - [UC-10: On-Call Runbook Co-Pilot](#uc-10-on-call-runbook-co-pilot)
+- [MVP Roadmap (First 4–6 Weeks)](#mvp-roadmap-first-4-6-weeks)
+- [Key Design Principles Tied to Use Cases](#key-design-principles-tied-to-use-cases)
+- [Open Questions](#open-questions)
+
+---
 ## **Introduction**
 
 ### **Overview**
