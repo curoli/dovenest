@@ -1,5 +1,16 @@
 # **DoveNest: Cooperatively Planning AI Agents for a Human Future**
 
+## Executive Summary
+Artificial intelligence today is split between **conversation partners** (strong in dialogue, knowledge sharing, and creativity) and **agents** (strong in executing tasks through tools and interfaces). Humans, however, naturally flow between planning and action. This separation creates friction, forcing mode-switches and fragmented experiences.
+
+**DoveNest** proposes a new standard: **cooperatively planning agents** that unify **understanding, planning, and acting** into one seamless interaction. By combining persistent memories, interface competence, and non-blocking background execution, DoveNest personas can:
+- Engage in natural dialogue while planning and executing tasks.
+- Manage context, memories, and specialized knowledge.
+- Run long operations asynchronously while conversation continues.
+- Ensure human-in-the-loop approval, provenance, and safety.
+
+This whitepaper outlines the motivation, architecture, and ten concrete use cases of DoveNest, along with an MVP roadmap and design principles. The vision is a **human-centered AI platform** where agents work like trusted collaborators — continuous, contextual, and safe.
+
 ## Table of Contents
 - [Introduction](#introduction)
   - [Overview](#overview)
