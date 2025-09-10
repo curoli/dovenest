@@ -26,10 +26,15 @@ DoveNest unifies both worlds into a single AI persona that can **understand, pla
 
 ## Documentation
 
-📄 Further reading:
+📄 Further reading
 
-- [Whitepaper (English)](docs/dovenest-en.md)
-- [Weißbuch (Deutsch)](docs/dovenest-de.md)
+- [Whitepaper (🇬🇧 English)](docs/dovenest-en.md)
+- [Weißbuch (🇩🇪 Deutsch)](docs/dovenest-de.md)
+- [Buku Putih (🇮🇩 Bahasa)](docs/dovenest-id.md)
+- [ورقة بيضاء (🇸🇦 العربية)](docs/dovenest-ar.md)
+- [Beyaz Bülten (🇹🇷 Türkçe)](docs/dovenest-tr.md)
+- [白皮书 (🇨🇳 中文)](docs/dovenest-zh.md)
+- [Libro blanco (🇪🇸 Español)](docs/dovenest-es.md)
 
 ---
 
