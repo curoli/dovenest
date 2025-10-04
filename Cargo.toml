@@ -1,4 +1,8 @@
-[package]
+[workspace]
+members = ["dovenest", "dovenest-cli"]
+resolver = "2"
+
+[workspace.package]
 name = "dovenest"
 description = "DoveNest develops cooperatively planning agents – AI personas that unify conversation partners and agents in one seamless interaction."
 version = "0.1.0"
@@ -12,4 +16,8 @@ keywords = ["ai", "agent", "conversation", "planning", "dovenest"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[dependencies]
+[workspace.dependencies]
+anyhow = "1"
+tokio = { version = "1", features = ["full"] }
+serde = { version = "1", features = ["derive"] }
+tracing = "0.1"
