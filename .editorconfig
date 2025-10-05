@@ -1,0 +1,35 @@
+# =========================================
+# 🕊 DoveNest – EditorConfig
+# =========================================
+
+# Top-level EditorConfig file
+root = true
+
+# --- Default Settings ---
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+# --- Rust Code ---
+[*.rs]
+indent_size = 4
+
+# --- TOML, JSON, YAML, Markdown ---
+[*.{toml,json,yml,yaml,md}]
+indent_size = 2
+
+# --- Shell Scripts ---
+[*.sh]
+indent_size = 2
+
+# --- Makefiles ---
+[Makefile]
+indent_style = tab
+
+# --- Markdown specifics ---
+[*.md]
+trim_trailing_whitespace = false   # wichtig, um absichtliche zwei Leerzeichen am Zeilenende zu erhalten

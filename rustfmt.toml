@@ -1,0 +1,10 @@
+# =========================================
+# 🕊 DoveNest – rustfmt.toml (stable)
+# =========================================
+
+edition = "2024"
+max_width = 100
+newline_style = "Unix"
+
+# Stable-Features
+reorder_imports = true
