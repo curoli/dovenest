@@ -1,0 +1,48 @@
+# =========================================
+#  🕊 DoveNest – Git Attributes
+# =========================================
+
+# --- Einheitliche Zeilenenden ---
+# Erzwingt LF für alle Textdateien
+* text=auto eol=lf
+
+# --- Rust & Code-Dateien ---
+*.rs text
+Cargo.toml text
+Cargo.lock text
+
+# --- Dokumentation ---
+*.md  text
+*.txt text
+*.toml text
+*.json text
+*.yml text
+*.yaml text
+
+# --- Shell / Skripte ---
+*.sh  text eol=lf
+*.bash text eol=lf
+
+# --- Konfigurationsdateien ---
+.gitignore text
+.gitattributes text
+
+# --- Binäre Dateien ---
+# (Git soll hier keine Zeilenenden anfassen oder diffen)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.pdf binary
+*.wasm binary
+*.ttf binary
+*.woff binary
+*.woff2 binary
+
+# --- Optional: Lockfiles ---
+# Falls du Cargo.lock nicht versionierst, kannst du ihn hier ebenfalls markieren
+Cargo.lock text
+
+# Markdown: automatische linguistische Diff-Unterstützung aktivieren
+*.md diff=markdown
