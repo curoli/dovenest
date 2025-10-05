@@ -3,7 +3,6 @@ members = ["dovenest", "dovenest-cli"]
 resolver = "2"
 
 [workspace.package]
-name = "dovenest"
 description = "DoveNest develops cooperatively planning agents – AI personas that unify conversation partners and agents in one seamless interaction."
 version = "0.1.0"
 edition = "2024"

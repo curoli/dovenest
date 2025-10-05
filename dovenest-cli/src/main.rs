@@ -1,36 +1,63 @@
 use anyhow::Result;
 use clap::Parser;
-use serde::Deserialize;
+use dovenest::DoveNest;
+use std::io::{self, Write};
 
-/// 🕊️  DoveNest CLI – "coo"
 #[derive(Parser, Debug)]
 #[command(author, version, about)]
 struct Cli {
-    /// Pfad zu einer Konfigurationsdatei
+    /// Optional prompt (non-REPL mode)
     #[arg(short, long)]
-    config: Option<String>,
-}
+    prompt: Option<String>,
 
-/// Beispiel-Config, die wir mit serde laden
-#[derive(Debug, Deserialize)]
-struct Config {
-    model: String,
-    api_key: String,
+    /// Model to use (default via env DOVENEST_MODEL or gpt-4.1-mini)
+    #[arg(short = 'm', long)]
+    model: Option<String>,
 }
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    let cli = Cli::parse();
+    let args = Cli::parse();
+    let dn = DoveNest::new();
+    let model = args
+        .model
+        .or_else(|| std::env::var("DOVENEST_MODEL").ok())
+        .unwrap_or_else(|| "gpt-4.1-mini".to_string());
 
-    if let Some(path) = cli.config {
-        let text = std::fs::read_to_string(&path)?;
-        // Hier nehmen wir erstmal TOML als Beispiel
-        let cfg: Config = toml::from_str(&text)?;
-        println!("Konfiguration geladen: {:?}", cfg);
+    if let Some(p) = args.prompt {
+        stream_once(&dn, &model, p).await?;
+        return Ok(());
     }
 
-    println!("🕊️  coo – DoveNest CLI");
-    println!("Lib sagt: {}", dovenest::hello());
+    println!("🕊️  coo – DoveNest CLI (Streaming). Tippe 'exit' zum Beenden.");
+    let stdin = io::stdin();
+    loop {
+        print!("you > ");
+        io::stdout().flush()?;
+        let mut line = String::new();
+        stdin.read_line(&mut line)?;
+        let line = line.trim().to_string();
+        if line.is_empty() {
+            continue;
+        }
+        if line == "exit" {
+            break;
+        }
+        stream_once(&dn, &model, line).await?;
+        println!();
+    }
+    Ok(())
+}
 
+async fn stream_once(dn: &DoveNest, model: &str, user_input: String) -> Result<()> {
+    print!("ai  > ");
+    io::stdout().flush()?;
+    dn.chat_stream_to(model, &user_input, |delta| {
+        print!("{delta}");
+        io::stdout().flush()?;
+        Ok(())
+    })
+    .await?;
+    println!(); // done
     Ok(())
 }

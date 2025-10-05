@@ -10,7 +10,9 @@ license.workspace = true
 keywords.workspace = true
 
 [dependencies]
-anyhow = { workspace = true }
-tokio = { workspace = true }
-serde = { workspace = true }
+anyhow  = { workspace = true }
+tokio   = { workspace = true }
+serde   = { workspace = true }
 tracing = { workspace = true }
+futures = "0.3"
+async-openai = "0.29"
